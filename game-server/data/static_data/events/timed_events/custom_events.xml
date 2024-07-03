@@ -26,10 +26,26 @@
 			</buff>
 		</buffs>
 	</event>
-	<event name="Increased Rates" start="2024-05-20T00:00:00" end="2024-05-26T23:59:59">
-		<login_message>Benefit from increased drop rates until May 26th!</login_message>
+	<event name="Increased Rates A" start="2024-07-12T00:00:00" end="2024-07-14T23:59:59">
+		<login_message>Benefit from increased rates until July 14th!</login_message>
 		<config_properties>
-			<property>gameserver.rates.drop = 1.1</property>
+			<property>gameserver.rates.xp.solo = 6.6</property>
+			<property>gameserver.rates.xp.group = 6.6</property>
+			<property>gameserver.rates.xp.quest = 6</property>
+			<property>gameserver.rates.ap.pvp.gain = 6</property>
+		</config_properties>
+	</event>
+	<event name="Increased Rates B" start="2024-07-19T00:00:00" end="2024-07-21T23:59:59">
+		<login_message>Benefit from increased rates until July 21st!</login_message>
+		<config_properties>
+			<property>gameserver.rates.xp.gathering = 6</property>
+			<property>gameserver.rates.xp.crafting = 6</property>
+		</config_properties>
+	</event>
+	<event name="Increased Rates C" start="2024-07-26T00:00:00" end="2024-07-28T23:59:59">
+		<login_message>Benefit from increased rates until July 28th!</login_message>
+		<config_properties>
+			<property>gameserver.rates.gathering.count = 4</property>
 		</config_properties>
 	</event>
 	<event name="April Fool's" start="2024-04-01T00:00:00" end="2024-04-01T23:59:59">
@@ -2997,7 +3013,7 @@
 			</gd_rule>
 		</event_drops>
 	</event>
-	<event name="Beritra Lucky Week" start="2024-02-14T09:00:00" end="2024-02-27T23:59:59">
+	<event name="Beritra Lucky Week" start="2024-07-10T09:00:00" end="2024-07-23T23:59:59">
 		<event_drops>
 			<gd_rule rule_name="Beritra Equipment Chest" chance="100" member_limit="12">
 				<gd_maps>
