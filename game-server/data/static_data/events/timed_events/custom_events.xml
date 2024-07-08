@@ -27,25 +27,36 @@
 		</buffs>
 	</event>
 	<event name="Increased Rates A" start="2024-07-12T00:00:00" end="2024-07-14T23:59:59">
-		<login_message>Benefit from increased rates until July 14th!</login_message>
+		<login_message>Benefit from increased XP and AP rates until July 14th!</login_message>
 		<config_properties>
 			<property>gameserver.rates.xp.solo = 6.6</property>
 			<property>gameserver.rates.xp.group = 6.6</property>
 			<property>gameserver.rates.xp.quest = 6</property>
+			<property>gameserver.rates.xp.gathering = 6</property>
+			<property>gameserver.rates.xp.crafting = 6</property>
+			<property>gameserver.rates.xp.pvp = 6.6</property>
 			<property>gameserver.rates.ap.pvp.gain = 6</property>
+			<property>gameserver.rates.ap.pve = 1.5</property>
+			<property>gameserver.rates.ap.quest = 1.5</property>
+			<property>gameserver.rates.ap.dredgion = 6</property>
 		</config_properties>
 	</event>
 	<event name="Increased Rates B" start="2024-07-19T00:00:00" end="2024-07-21T23:59:59">
-		<login_message>Benefit from increased rates until July 21st!</login_message>
+		<login_message>Benefit from increased skill experience when gathering or crafting until July 21st!</login_message>
 		<config_properties>
-			<property>gameserver.rates.xp.gathering = 6</property>
-			<property>gameserver.rates.xp.crafting = 6</property>
+			<property>gameserver.rates.skill_xp.gathering = 10</property>
+			<property>gameserver.rates.skill_xp.crafting = 10</property>
 		</config_properties>
 	</event>
 	<event name="Increased Rates C" start="2024-07-26T00:00:00" end="2024-07-28T23:59:59">
-		<login_message>Benefit from increased rates until July 28th!</login_message>
+		<login_message>Benefit from increased gathering counts until July 28th!</login_message>
 		<config_properties>
 			<property>gameserver.rates.gathering.count = 4</property>
+		</config_properties>
+	</event>
+	<event name="Kill Collector" start="2024-07-08T00:00:00" end="2024-08-04T23:59:59">
+		<config_properties>
+			<property>gameserver.event.headhunting.enable = true</property>
 		</config_properties>
 	</event>
 	<event name="April Fool's" start="2024-04-01T00:00:00" end="2024-04-01T23:59:59">
