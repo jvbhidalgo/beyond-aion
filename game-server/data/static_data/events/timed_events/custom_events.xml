@@ -3032,6 +3032,7 @@
 				</gd_maps>
 				<gd_npcs>
 					<gd_npc npc_id="833012" /><!-- Beritra -->
+					<gd_npc npc_id="833013" /><!-- Cloak of Balaur Lord Beritra -->
 				</gd_npcs>
 				<gd_items>
 					<gd_item id="188053728" /><!-- Beritra's Equipment Box -->
