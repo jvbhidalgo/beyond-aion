@@ -1,11 +1,12 @@
 package com.aionemu.gameserver.services.player;
 
+import static com.aionemu.gameserver.configs.main.SecurityConfig.MultiClientingRestrictionMode.SAME_FACTION;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -142,51 +143,15 @@ public final class PlayerEnterWorldService {
 			return;
 		}
 
-		final Player player = PlayerService.getPlayer(objectId, account);
-
-		if (SecurityConfig.DUALBOXING && !player.isStaff()) {
-			boolean[] kick = { false };
-			World.getInstance().forEachPlayer(new Consumer<>() {
-
-				String pMac = client.getMacAddress() == null || client.getMacAddress().isEmpty() ? "empty" : client.getMacAddress();
-				String pHdd = client.getHddSerial() == null || client.getHddSerial().isEmpty() ? "empty" : client.getHddSerial();
-				String pIp = client.getIP() == null || client.getIP().isEmpty() ? "empty" : client.getIP();
-
-				@Override
-				public void accept(Player visitor) {
-					final AionConnection vCon = visitor.getClientConnection();
-					if (visitor.equals(player) || visitor.isStaff() || vCon == null)
-						return;
-
-					boolean sameMac = pMac.equals(vCon.getMacAddress());
-					boolean sameHdd = pHdd.equals(vCon.getHddSerial());
-					boolean sameIp = pIp.equals(vCon.getIP());
-
-					if (!sameMac && !sameHdd && !sameIp)
-						return;
-
-					StringBuilder sb = new StringBuilder();
-					sb.append(sameIp ? "IP " + pIp : "");
-					sb.append(sameMac ? " / MAC " + pMac : "");
-					sb.append(sameHdd ? " / HDD " + pHdd : "");
-					log.info("[Multiclient] Player {} (account {}) and player {} (account {}) share the same {}", player, player.getAccount(), visitor,
-						visitor.getAccount(), sb);
-
-					if (SecurityConfig.KICK_DUALBOXING && sameIp && (sameHdd || sameMac)) {
-						log.info("[Multiclient] Kicked player " + visitor.getName());
-						vCon.close(new SM_QUIT_RESPONSE());
-						kick[0] = true;
-					}
-				}
-			});
-			if (kick[0])
-				client.sendPacket(new SM_ENTER_WORLD_CHECK(Msg.CONNECTION_ERROR));
-			return;
-		}
-
+		Player player = PlayerService.getPlayer(objectId, account);
 		if (!enteringWorld.contains(objectId) && enteringWorld.add(objectId)) {
 			try {
-				enterWorld(client, player);
+				if (player.isStaff() || MultiClientingService.tryEnterWorld(player, client)) {
+					enterWorld(client, player);
+				} else {
+					Msg msg = SecurityConfig.MULTI_CLIENTING_RESTRICTION_MODE == SAME_FACTION ? Msg.BOTH_FACTIONS : Msg.CONNECTION_ERROR;
+					client.sendPacket(new SM_ENTER_WORLD_CHECK(msg));
+				}
 			} catch (Throwable ex) {
 				player.getController().delete();
 				pcd.setOnline(false);
