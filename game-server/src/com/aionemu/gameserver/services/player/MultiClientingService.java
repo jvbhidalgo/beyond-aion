@@ -61,7 +61,7 @@ public class MultiClientingService {
 		Race oppositeRace = race == Race.ELYOS ? Race.ASMODIANS : Race.ELYOS;
 		long minLastOnlineMillis = System.currentTimeMillis() - Duration.ofMinutes(SecurityConfig.MULTI_CLIENTING_FACTION_SWITCH_COOLDOWN_MINUTES).toMillis();
 		return sessionsByAccountId.values().stream()
-			.filter(s -> s.wasPlayingOnSameIpMacOrHdd(oppositeRace, minLastOnlineMillis, con))
+			.filter(s -> s.wasPlayingOnSameIpOrMac(oppositeRace, minLastOnlineMillis, con))
 			.findAny()
 			.map(s -> s.accountId)
 			.orElse(null);
@@ -78,7 +78,7 @@ public class MultiClientingService {
 		}
 
 		synchronized void putIdentifiers(AionConnection connection) {
-			Identifiers ids = new Identifiers(connection.getIP(), connection.getMacAddress(), connection.getHddSerial());
+			Identifiers ids = new Identifiers(connection.getIP(), connection.getMacAddress());
 			if (!identifiers.contains(ids)) {
 				identifiers.addFirst(ids);
 				while (identifiers.size() > 3)
@@ -86,8 +86,8 @@ public class MultiClientingService {
 			}
 		}
 
-		synchronized boolean hasAny(String ip, String mac, String hdd) {
-			return identifiers.stream().anyMatch(identifiers -> identifiers.ip.equals(ip) || identifiers.mac.equals(mac) || !hdd.isEmpty() && identifiers.hdd.equals(hdd));
+		synchronized boolean hasAny(String ip, String mac) {
+			return identifiers.stream().anyMatch(identifiers -> identifiers.ip.equals(ip) || identifiers.mac.equals(mac));
 		}
 
 		boolean isExpired() {
@@ -103,11 +103,11 @@ public class MultiClientingService {
 			lastCharOnlineTimeMillis.put(player.getRace(), System.currentTimeMillis());
 		}
 
-		boolean wasPlayingOnSameIpMacOrHdd(Race race, long minLastOnlineMillis, AionConnection con) {
+		boolean wasPlayingOnSameIpOrMac(Race race, long minLastOnlineMillis, AionConnection con) {
 			Long lastOnlineMillis = lastCharOnlineTimeMillis.get(race);
-			return lastOnlineMillis != null && lastOnlineMillis > minLastOnlineMillis && hasAny(con.getIP(), con.getMacAddress(), con.getHddSerial());
+			return lastOnlineMillis != null && lastOnlineMillis > minLastOnlineMillis && hasAny(con.getIP(), con.getMacAddress());
 		}
 	}
 
-	private record Identifiers(String ip, String mac, String hdd) {}
+	private record Identifiers(String ip, String mac) {}
 }
