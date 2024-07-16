@@ -31,6 +31,7 @@ import com.aionemu.gameserver.model.gameobjects.Item;
 import com.aionemu.gameserver.model.gameobjects.Persistable.PersistentState;
 import com.aionemu.gameserver.model.gameobjects.player.BindPointPosition;
 import com.aionemu.gameserver.model.gameobjects.player.FriendList.Status;
+import com.aionemu.gameserver.model.gameobjects.player.Macros;
 import com.aionemu.gameserver.model.gameobjects.player.Player;
 import com.aionemu.gameserver.model.gameobjects.player.PlayerCommonData;
 import com.aionemu.gameserver.model.house.House;
@@ -470,9 +471,9 @@ public final class PlayerEnterWorldService {
 	}
 
 	private static void sendMacroList(AionConnection client, Player player) {
-		client.sendPacket(new SM_MACRO_LIST(player, false));
-		if (player.getMacroList().getSize() > 7)
-			client.sendPacket(new SM_MACRO_LIST(player, true));
+		SplitList<Macros.Macro> macroSplitList = new DynamicServerPacketBodySplitList<>(player.getMacros().getAll(), true, SM_MACRO_LIST.STATIC_BODY_SIZE,
+			SM_MACRO_LIST.DYNAMIC_BODY_PART_SIZE_CALCULATOR);
+		macroSplitList.forEach(part -> PacketSendUtility.sendPacket(player, new SM_MACRO_LIST(player.getObjectId(), part, part.isFirst())));
 	}
 }
 
