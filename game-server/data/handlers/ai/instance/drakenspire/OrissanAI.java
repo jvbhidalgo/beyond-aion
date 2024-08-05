@@ -70,7 +70,7 @@ public class OrissanAI extends AggressiveNoLootNpcAI {
 					spawnFrigidCrystals();
 					task = ThreadPoolManager.getInstance().schedule(() -> {
 						getOwner().clearQueuedSkills();
-						getOwner().queueSkill(21632, 1); // Frigid Blast
+						getOwner().queueSkill(21632, 1, 0); // Frigid Blast
 						getOwner().queueSkill(21633, 1, 8000); // Ice Explosion
 					}, 10000);
 				}

@@ -177,8 +177,8 @@ public class Lv1HumanBeritraAI extends AggressiveNoLootNpcAI {
 		int chainId = getOwner().getGameStats().getLastSkill().getNextChainId();
 		NpcSkillEntry entry = getOwner().getSkillList().getNpcSkills().stream().filter(nse -> nse.getChainId() == chainId).findAny().orElse(null);
 
-		getOwner().queueSkill(21604, 56);
-		getOwner().queueSkill(21603, 56);
+		getOwner().queueSkill(21604, 56, 0);
+		getOwner().queueSkill(21603, 56, entry == null ? -1 : 0);
 		if (entry != null)
 			getOwner().getQueuedSkills().offer(entry);
 	}
