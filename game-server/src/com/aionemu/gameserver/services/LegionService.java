@@ -761,6 +761,7 @@ public class LegionService {
 		LegionDAO.saveAnnouncement(legion.getLegionId(), announcement);
 		if (announcement == null) {
 			PacketSendUtility.sendPacket(activePlayer, SM_SYSTEM_MESSAGE.STR_MSG_CLEAR_GUILD_NOTICE());
+			PacketSendUtility.broadcastToLegion(legion, new SM_LEGION_INFO(legion), activePlayer.getObjectId());
 		} else {
 			PacketSendUtility.sendPacket(activePlayer, SM_SYSTEM_MESSAGE.STR_GUILD_WRITE_NOTICE_DONE());
 			PacketSendUtility.broadcastToLegion(legion, new SM_LEGION_EDIT(announcement));
