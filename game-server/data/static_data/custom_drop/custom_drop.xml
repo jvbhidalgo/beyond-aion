@@ -4011,22 +4011,22 @@
 			<drop item_id="162000141" min_amount="3" /><!-- Sublime Wind Serum -->
 		</drop_group>
 		<drop_group>
-			<drop item_id="188052388" chance="20" /><!-- Modor's Equipment Box -->
+			<drop item_id="188052827" chance="20" /><!-- Dynatoum's Equipment Chest -->
 			<drop item_id="166500002" min_amount="2" chance="20" /><!-- Amplification Stone -->
 			<drop item_id="166020000" min_amount="3" chance="20" /><!-- Omega Enchantment Stone -->
-			<drop item_id="188053609" min_amount="3" chance="20" /><!-- [Event] Level 60 Composite Manastone Bundle -->
+			<drop item_id="166030005" min_amount="2" chance="20" /><!-- Tempering Solution -->
 		</drop_group>
 		<drop_group>
-			<drop item_id="188053120" chance="5" /><!-- Danuar Reliquary Loot [Weapon] -->
-			<drop item_id="166200009" min_amount="2" chance="5" /><!-- Mythic Weapon Tuning Scroll -->
+			<drop item_id="188053700" chance="5" /><!-- Honorable Accessory Box of Conquest -->
+			<drop item_id="166200009" chance="5" /><!-- Mythic Weapon Tuning Scroll -->
 			<drop item_id="166200010" chance="5" /><!-- Mythic Armor Tuning Scroll -->
-			<drop item_id="188052638" min_amount="3" chance="5" /><!-- [Event] Fabled Godstone Bundle -->
-			<drop item_id="166030005" min_amount="3" chance="5" /><!-- Tempering Solution -->
+			<drop item_id="168310018" chance="5" /><!-- Major Blessed Augment: Level 2 -->
+			<drop item_id="188053610" min_amount="2" chance="5" /><!-- [Event] Level 70 Composite Manastone Bundle -->
 		</drop_group>
 		<drop_group>
 			<drop item_id="188950019" chance="1" /><!-- Special Courier Pass (Mythic/Lv. 61-65) -->
-			<drop item_id="188053099" chance="1" /><!-- Pure Modor's Equipment Crux Box -->
-			<drop item_id="188052946" chance="1" /><!-- Padmarashka's Raging Weapon Box -->
+			<drop item_id="188052438" chance="1" /><!-- Danuar Reliquary Expedition's Weapon Box -->
+			<drop item_id="188053124" chance="1" /><!-- Infinity Shard Equipment Loot -->
 		</drop_group>
 	</npc_drop>
 	<npc_drop npc_id="831123">
@@ -4043,17 +4043,17 @@
 			<drop item_id="162000141" min_amount="3" /><!-- Sublime Wind Serum -->
 		</drop_group>
 		<drop_group>
-			<drop item_id="188052388" chance="20" /><!-- Modor's Equipment Box -->
+			<drop item_id="188052827" chance="20" /><!-- Dynatoum's Equipment Chest -->
 			<drop item_id="166500002" min_amount="2" chance="20" /><!-- Amplification Stone -->
 			<drop item_id="166020000" min_amount="3" chance="20" /><!-- Omega Enchantment Stone -->
-			<drop item_id="188053609" min_amount="3" chance="20" /><!-- [Event] Level 60 Composite Manastone Bundle -->
+			<drop item_id="166030005" min_amount="2" chance="20" /><!-- Tempering Solution -->
 		</drop_group>
 		<drop_group>
-			<drop item_id="188053120" chance="5" /><!-- Danuar Reliquary Loot [Weapon] -->
-			<drop item_id="166200009" min_amount="2" chance="5" /><!-- Mythic Weapon Tuning Scroll -->
+			<drop item_id="188053700" chance="5" /><!-- Honorable Accessory Box of Conquest -->
+			<drop item_id="166200009" chance="5" /><!-- Mythic Weapon Tuning Scroll -->
 			<drop item_id="166200010" chance="5" /><!-- Mythic Armor Tuning Scroll -->
-			<drop item_id="188052638" min_amount="3" chance="5" /><!-- [Event] Fabled Godstone Bundle -->
-			<drop item_id="166030005" min_amount="3" chance="5" /><!-- Tempering Solution -->
+			<drop item_id="168310018" chance="5" /><!-- Major Blessed Augment: Level 2 -->
+			<drop item_id="188053610" min_amount="2" chance="5" /><!-- [Event] Level 70 Composite Manastone Bundle -->
 		</drop_group>
 	</npc_drop>
 	<npc_drop npc_id="831124">
@@ -4070,10 +4070,10 @@
 			<drop item_id="162000141" min_amount="3" /><!-- Sublime Wind Serum -->
 		</drop_group>
 		<drop_group>
-			<drop item_id="188052388" chance="20" /><!-- Modor's Equipment Box -->
+			<drop item_id="188052827" chance="20" /><!-- Dynatoum's Equipment Chest -->
 			<drop item_id="166500002" min_amount="2" chance="20" /><!-- Amplification Stone -->
 			<drop item_id="166020000" min_amount="3" chance="20" /><!-- Omega Enchantment Stone -->
-			<drop item_id="188053609" min_amount="3" chance="20" /><!-- [Event] Level 60 Composite Manastone Bundle -->
+			<drop item_id="166030005" min_amount="2" chance="20" /><!-- Tempering Solution -->
 		</drop_group>
 	</npc_drop>
 	<npc_drop npc_id="831373">
@@ -4090,22 +4090,22 @@
 			<drop item_id="162000141" min_amount="3" /><!-- Sublime Wind Serum -->
 		</drop_group>
 		<drop_group>
-			<drop item_id="188052388" chance="20" /><!-- Modor's Equipment Box -->
+			<drop item_id="188052827" chance="20" /><!-- Dynatoum's Equipment Chest -->
 			<drop item_id="166500002" min_amount="2" chance="20" /><!-- Amplification Stone -->
 			<drop item_id="166020000" min_amount="3" chance="20" /><!-- Omega Enchantment Stone -->
-			<drop item_id="188053609" min_amount="3" chance="20" /><!-- [Event] Level 60 Composite Manastone Bundle -->
+			<drop item_id="166030005" min_amount="2" chance="20" /><!-- Tempering Solution -->
 		</drop_group>
 		<drop_group>
-			<drop item_id="188053120" chance="5" /><!-- Danuar Reliquary Loot [Weapon] -->
-			<drop item_id="166200009" min_amount="2" chance="5" /><!-- Mythic Weapon Tuning Scroll -->
+			<drop item_id="188053700" chance="5" /><!-- Honorable Accessory Box of Conquest -->
+			<drop item_id="166200009" chance="5" /><!-- Mythic Weapon Tuning Scroll -->
 			<drop item_id="166200010" chance="5" /><!-- Mythic Armor Tuning Scroll -->
-			<drop item_id="188052638" min_amount="3" chance="5" /><!-- [Event] Fabled Godstone Bundle -->
-			<drop item_id="166030005" min_amount="3" chance="5" /><!-- Tempering Solution -->
+			<drop item_id="168310018" chance="5" /><!-- Major Blessed Augment: Level 2 -->
+			<drop item_id="188053610" min_amount="2" chance="5" /><!-- [Event] Level 70 Composite Manastone Bundle -->
 		</drop_group>
 		<drop_group>
 			<drop item_id="188950019" chance="1" /><!-- Special Courier Pass (Mythic/Lv. 61-65) -->
-			<drop item_id="188053099" chance="1" /><!-- Pure Modor's Equipment Crux Box -->
-			<drop item_id="188052946" chance="1" /><!-- Padmarashka's Raging Weapon Box -->
+			<drop item_id="188052438" chance="1" /><!-- Danuar Reliquary Expedition's Weapon Box -->
+			<drop item_id="188053124" chance="1" /><!-- Infinity Shard Equipment Loot -->
 		</drop_group>
 	</npc_drop>
 	<!-- Steel Rake -->
