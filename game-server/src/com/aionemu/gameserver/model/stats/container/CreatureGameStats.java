@@ -78,10 +78,8 @@ public abstract class CreatureGameStats<T extends Creature> {
 					statFunctions.add(functionToAdd);
 				} else {
 					synchronized (statFunctions) {
-						if (!statFunctions.contains(functionToAdd)) { // list.contains is plenty fast, as this list never contains many items
-							statFunctions.add(functionToAdd);
-							statFunctions.sort(null);
-						}
+						statFunctions.add(functionToAdd);
+						statFunctions.sort(null);
 					}
 				}
 				return statFunctions;
