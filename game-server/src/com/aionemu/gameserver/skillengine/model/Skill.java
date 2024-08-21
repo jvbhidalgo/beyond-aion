@@ -306,7 +306,6 @@ public class Skill {
 			if (skillTemplate.getCooldownDeltaLv() != 0)
 				cooldown = cooldown + skillTemplate.getCooldownDeltaLv() * skillLevel;
 			effector.setSkillCoolDown(skillTemplate.getCooldownId(), cooldown * 100 + System.currentTimeMillis());
-			effector.setSkillCoolDownBase(skillTemplate.getCooldownId(), System.currentTimeMillis());
 		}
 	}
 

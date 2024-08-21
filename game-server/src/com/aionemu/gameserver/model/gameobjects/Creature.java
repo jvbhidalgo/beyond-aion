@@ -50,7 +50,6 @@ public abstract class Creature extends VisibleObject {
 	private int seeState = CreatureSeeState.NORMAL.getId();
 	private Skill castingSkill;
 	private Map<Integer, Long> skillCoolDowns;
-	private Map<Integer, Long> skillCoolDownsBase;
 	private ObserveController observeController;
 	private final TransformModel transformModel;
 	private final AggroList aggroList;
@@ -490,12 +489,7 @@ public abstract class Creature extends VisibleObject {
 		return getMaster();
 	}
 
-	/**
-	 * @param template
-	 * @return
-	 */
 	public boolean isSkillDisabled(SkillTemplate template) {
-
 		if (skillCoolDowns == null)
 			return false;
 
@@ -509,90 +503,30 @@ public abstract class Creature extends VisibleObject {
 			removeSkillCoolDown(cooldownId);
 			return false;
 		}
-
-		/*
-		 * Some shared cooldown skills have independent and different cooldown they must not be blocked
-		 */
-		if (skillCoolDownsBase != null && skillCoolDownsBase.get(cooldownId) != null) {
-			if ((template.getDuration() + template.getCooldown() * 100 + skillCoolDownsBase.get(cooldownId)) < System.currentTimeMillis())
-				return false;
-		}
 		return true;
 	}
 
-	/**
-	 * @param cooldownId
-	 * @return
-	 */
 	public long getSkillCoolDown(int cooldownId) {
-		if (skillCoolDowns == null || !skillCoolDowns.containsKey(cooldownId))
-			return 0;
-
-		return skillCoolDowns.get(cooldownId);
+		return skillCoolDowns == null ? 0L : skillCoolDowns.getOrDefault(cooldownId, 0L);
 	}
 
-	/**
-	 * @param cooldownId
-	 * @param time
-	 */
 	public void setSkillCoolDown(int cooldownId, long time) {
-
 		if (cooldownId == 0) {
 			return;
 		}
-
 		if (skillCoolDowns == null)
 			skillCoolDowns = new ConcurrentHashMap<>();
 		skillCoolDowns.put(cooldownId, time);
 	}
 
-	/**
-	 * @return the skillCoolDowns
-	 */
 	public Map<Integer, Long> getSkillCoolDowns() {
 		return skillCoolDowns;
 	}
 
-	/**
-	 * @param cooldownId
-	 */
 	public void removeSkillCoolDown(int cooldownId) {
 		if (skillCoolDowns == null)
 			return;
 		skillCoolDowns.remove(cooldownId);
-		if (skillCoolDownsBase != null)
-			skillCoolDownsBase.remove(cooldownId);
-	}
-
-	/**
-	 * This function saves the currentMillis of skill that generated the cooldown of an entire cooldownGroup
-	 * 
-	 * @param cooldownId
-	 * @param baseTime
-	 */
-	public void setSkillCoolDownBase(int cooldownId, long baseTime) {
-
-		if (cooldownId == 0) {
-			return;
-		}
-
-		if (skillCoolDownsBase == null)
-			skillCoolDownsBase = new ConcurrentHashMap<>();
-		skillCoolDownsBase.put(cooldownId, baseTime);
-	}
-
-	/**
-	 * completly sets cooldown for given skillId, used for summon skills
-	 * 
-	 * @param skillId
-	 */
-	public void resetSkillCoolDown(int skillId) {
-		SkillTemplate st = DataManager.SKILL_DATA.getSkillTemplate(skillId);
-
-		if (st != null && st.getCooldown() > 0) {
-			setSkillCoolDown(st.getCooldownId(), st.getCooldown() * 100 + System.currentTimeMillis());
-			setSkillCoolDownBase(st.getCooldownId(), System.currentTimeMillis());
-		}
 	}
 
 	/**
