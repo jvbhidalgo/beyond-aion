@@ -4990,53 +4990,35 @@
 			</spawn_map>
 		</spawns>
 	</event>
-	<!-- TODO Insert playercommand because NPC tradelists are useless -->
-	<event name="Empyrean Lord's Feathers" start="2020-07-08T00:00:00" end="2020-07-08T23:59:59">
+	<event name="Empyrean Lord's Feathers" start="2024-09-02T00:00:00" end="2024-09-08T23:59:59">
 		<inventory_drop item_id="188052676" startlevel="10" interval="60" count="3" />
 		<event_drops>
-			<gd_rule rule_name="Celestial Feather (Single_E)" chance="15" restriction_race="ELYOS">
+			<gd_rule rule_name="Celestial Feather" chance="8">
 				<gd_items>
 					<gd_item id="188052676" /><!-- [Event] Celestial Feather -->
 				</gd_items>
 				<gd_maps>
 					<gd_map map_id="220080000" /><!-- Enshar -->
-				</gd_maps>
-			</gd_rule>
-			<gd_rule rule_name="Celestial Feather (Single_A)" chance="15" restriction_race="ASMODIANS">
-				<gd_items>
-					<gd_item id="188052676" /><!-- [Event] Celestial Feather -->
-				</gd_items>
-				<gd_maps>
 					<gd_map map_id="210070000" /><!-- Cygnea -->
 				</gd_maps>
 			</gd_rule>
-			<gd_rule rule_name="Celestial Feather (Shared)" chance="100" member_limit="12">
-				<gd_items>
-					<gd_item id="188052676" min_count="3" max_count="5" /><!-- [Event] Celestial Feather -->
-				</gd_items>
-				<gd_maps>
-					<gd_map map_id="300620000" /><!-- Occupied_Rentus_Base -->
-					<gd_map map_id="301130000" /><!-- Sauro_Supply_Base -->
-					<gd_map map_id="300800000" /><!-- Infinity_Shard -->
-					<gd_map map_id="301270000" /><!-- Linkgate_Foundry -->
-					<gd_map map_id="301140000" /><!-- Seized_Danuar_Sanctuary -->
-					<gd_map map_id="300630000" /><!-- Anguished_Dragon_Lords_Refuge -->
-				</gd_maps>
-				<gd_npcs>
-					<gd_npc npc_id="236300" /><!-- Brigade General Vasharti -->
-					<gd_npc npc_id="230857" /><!-- Guard Captain Ahuradim -->
-					<gd_npc npc_id="230858" /><!-- Brigade General Sheba -->
-					<gd_npc npc_id="231073" /><!-- Hyperion -->
-					<gd_npc npc_id="233898" /><!-- Belsagos -->
-					<gd_npc npc_id="234990" /><!-- Belsagos -->
-					<gd_npc npc_id="234991" /><!-- Belsagos -->
-					<gd_npc npc_id="235619" /><!-- Warmage Suyaroka -->
-					<gd_npc npc_id="235620" /><!-- Chief Medic Tagnu -->
-					<gd_npc npc_id="235621" /><!-- Virulent Ukahim -->
-					<gd_npc npc_id="702729" /><!-- Tiamat's Huge Treasure Crate (Anguished Dragon Lords Refuge) -->
-				</gd_npcs>
-			</gd_rule>
 		</event_drops>
+		<spawns>
+			<!-- Sanctum -->
+			<spawn_map map_id="110010000">
+				<!-- Demaine -->
+				<spawn npc_id="831709" respawn_time="295">
+					<spot x="1525.85" y="1522.49" z="565.913" h="60" />
+				</spawn>
+			</spawn_map>
+			<!-- Pandaemonium -->
+			<spawn_map map_id="120010000">
+				<!-- Dargnyr -->
+				<spawn npc_id="831866" respawn_time="295">
+					<spot x="1620.86" y="1415.09" z="193.128" h="90" />
+				</spawn>
+			</spawn_map>
+		</spawns>
 	</event>
 	<event name="Nightmare Circus" start="2023-10-29T00:00:00" end="2023-11-05T23:59:59" theme="HALLOWEEN">
 		<quests>

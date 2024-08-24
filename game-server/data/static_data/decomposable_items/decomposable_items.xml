@@ -24613,8 +24613,16 @@
 			<item id="186000232" min_count="10" race="ASMODIANS" /><!-- Ceramium Coin -->
 		</items>
 	</decomposable>
-	<decomposable item_id="188052701" /><!-- [Event] Cinder-Spout Firecracker -->
-	<decomposable item_id="188052702" /><!-- [Event] Flame Pillar Firecracker -->
+	<decomposable item_id="188052701"><!-- [Event] Cinder-Spout Firecracker -->
+		<items>
+			<item id="164002218" min_count="3" /><!-- Cinder-Spout Firecracker -->
+		</items>
+	</decomposable>
+	<decomposable item_id="188052702"><!-- [Event] Flame Pillar Firecracker -->
+		<items>
+			<item id="164002219" min_count="3" /><!-- Flame Pillar Firecracker -->
+		</items>
+	</decomposable>
 	<decomposable item_id="188052703"><!-- [Event] Fabled Godstone Bundle -->
 		<items>
 			<item id="168000117" /><!-- Godstone: Meslamtaeda's Greed -->
