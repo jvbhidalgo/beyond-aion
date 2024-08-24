@@ -627,8 +627,12 @@ public abstract class Creature extends VisibleObject {
 		return template.getCooldown();
 	}
 
+	public long getMillisSinceSpawn() {
+		return System.currentTimeMillis() - spawnTime;
+	}
+
 	public boolean isNewSpawn() {
-		return System.currentTimeMillis() - spawnTime < 1500;
+		return getMillisSinceSpawn() < 1500;
 	}
 
 	public boolean isRaidMonster() {
