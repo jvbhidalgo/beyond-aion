@@ -165,7 +165,7 @@ public class Npc extends Creature {
 
 	@Override
 	public TribeClass getTribe() {
-		TribeClass transformTribe = getTransformModel().getTribe();
+		TribeClass transformTribe = isTransformed() ? getTransformModel().getTribe() : null;
 		if (transformTribe != null) {
 			return transformTribe;
 		}

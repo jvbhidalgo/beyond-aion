@@ -1,9 +1,5 @@
 package com.aionemu.gameserver.model;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-
 import javax.xml.bind.annotation.XmlEnum;
 
 import com.aionemu.gameserver.configs.main.GSConfig;
@@ -48,7 +44,7 @@ public enum PlayerClass implements L10n {
 	/** Tells whether player can create new character with this class */
 	private PlayerClass startingClass;
 
-	private Map<Integer, StatsTemplate> templatesByLevel = new HashMap<>();
+	private final StatsTemplate[] templatesByLevel = new StatsTemplate[GSConfig.PLAYER_MAX_LEVEL];
 	private final int power, health, agility, accuracy, knowledge, will, healthMultiplier, willMultiplier;
 
 	PlayerClass(int classId, int nameId, PlayerClass startingClass, int power, int health, int agility, int accuracy, int knowledge, int will, int healthMultiplier, int willMultiplier, int physicalAttack, int physicalCritical, int magicalCritical, int magicalCriticalResist) {
@@ -74,14 +70,8 @@ public enum PlayerClass implements L10n {
 	}
 
 	private void initializeTemplatesForEachLevel(int physicalAttack, int physicalCritical, int magicalCritical, int magicalCriticalResist) {
-		for (int level = 1; level <= 65; level++) {
-			StatsTemplate statsTemplate = new StatsTemplate();
-			statsTemplate.setPower(power);
-			statsTemplate.setHealth(health);
-			statsTemplate.setAgility(agility);
-			statsTemplate.setBaseAccuracy(accuracy);
-			statsTemplate.setKnowledge(knowledge);
-			statsTemplate.setWill(will);
+		for (int level = 1; level <= templatesByLevel.length; level++) {
+			PlayerStatsTemplate statsTemplate = new PlayerStatsTemplate();
 			statsTemplate.setMaxHp(PlayerStatCalculator.calculateMaxHp(this, level));
 			statsTemplate.setMaxMp(PlayerStatCalculator.calculateMaxMp(this, level));
 			statsTemplate.setBlock(PlayerStatCalculator.calculateBlockEvasionOrParry(level));
@@ -99,7 +89,7 @@ public enum PlayerClass implements L10n {
 			speeds.setRunSpeed(6f);
 			speeds.setFlySpeed(9f);
 			statsTemplate.setSpeeds(speeds);
-			templatesByLevel.put(level, statsTemplate);
+			templatesByLevel[level - 1] = statsTemplate;
 		}
 	}
 
@@ -190,8 +180,7 @@ public enum PlayerClass implements L10n {
 	}
 
 	public StatsTemplate getStatsTemplateFor(int level) {
-		StatsTemplate template = templatesByLevel.get(Math.min(level, GSConfig.PLAYER_MAX_LEVEL));
-		return Objects.requireNonNull(template, () -> "Missing template for PlayerClass." + this + " on level " + level);
+		return templatesByLevel[Math.min(level, templatesByLevel.length) - 1];
 	}
 
 	public int getPower() {
@@ -236,5 +225,38 @@ public enum PlayerClass implements L10n {
 
 	public int getNoWeaponPowerMultiplier() {
 		return 70;
+	}
+
+	private class PlayerStatsTemplate extends StatsTemplate {
+
+		@Override
+		public int getPower() {
+			return power;
+		}
+
+		@Override
+		public int getHealth() {
+			return health;
+		}
+
+		@Override
+		public int getAgility() {
+			return agility;
+		}
+
+		@Override
+		public int getBaseAccuracy() {
+			return accuracy;
+		}
+
+		@Override
+		public int getKnowledge() {
+			return knowledge;
+		}
+
+		@Override
+		public int getWill() {
+			return will;
+		}
 	}
 }

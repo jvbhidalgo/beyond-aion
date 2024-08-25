@@ -2,7 +2,6 @@ package com.aionemu.gameserver.controllers;
 
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.locks.ReentrantLock;
 
 import com.aionemu.gameserver.controllers.attack.AttackResult;
 import com.aionemu.gameserver.controllers.attack.AttackStatus;
@@ -20,21 +19,17 @@ import com.aionemu.gameserver.skillengine.model.Skill;
  */
 public class ObserveController {
 
-	private ReentrantLock lock = new ReentrantLock();
-	protected Collection<ActionObserver> observers = new CopyOnWriteArrayList<>();
-	protected List<ActionObserver> onceUsedObservers = new ArrayList<>();
-	protected Collection<AttackCalcObserver> attackCalcObservers = new CopyOnWriteArrayList<>();
+	protected final Collection<ActionObserver> observers = new CopyOnWriteArrayList<>();
+	protected final List<ActionObserver> onceUsedObservers = new ArrayList<>();
+	protected final Collection<AttackCalcObserver> attackCalcObservers = new CopyOnWriteArrayList<>();
 
 	/**
 	 * Once used observer add to observerController. If observer notify will be removed.
 	 */
 	public void attach(ActionObserver observer) {
 		observer.makeOneTimeUse();
-		lock.lock();
-		try {
+		synchronized (onceUsedObservers) {
 			onceUsedObservers.add(observer);
-		} finally {
-			lock.unlock();
 		}
 	}
 
@@ -48,11 +43,8 @@ public class ObserveController {
 
 	public void removeObserver(ActionObserver observer) {
 		observers.remove(observer);
-		lock.lock();
-		try {
+		synchronized (onceUsedObservers) {
 			onceUsedObservers.remove(observer);
-		} finally {
-			lock.unlock();
 		}
 	}
 
@@ -62,8 +54,7 @@ public class ObserveController {
 
 	public void notifyObservers(ObserverType type, Object... object) {
 		List<ActionObserver> tempOnceused = Collections.emptyList();
-		lock.lock();
-		try {
+		synchronized (onceUsedObservers) {
 			if (onceUsedObservers.size() > 0) {
 				tempOnceused = new ArrayList<>();
 				Iterator<ActionObserver> iterator = onceUsedObservers.iterator();
@@ -77,8 +68,6 @@ public class ObserveController {
 					}
 				}
 			}
-		} finally {
-			lock.unlock();
 		}
 
 		// notify outside of lock
@@ -276,11 +265,8 @@ public class ObserveController {
 	 * Clear all observers
 	 */
 	public void clear() {
-		lock.lock();
-		try {
+		synchronized (onceUsedObservers) {
 			onceUsedObservers.clear();
-		} finally {
-			lock.unlock();
 		}
 		observers.clear();
 		attackCalcObservers.clear();

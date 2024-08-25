@@ -57,11 +57,6 @@ public class StatsTemplate {
 	@XmlElement
 	private CreatureSpeeds speeds;
 
-	@XmlTransient
-	private int power = 100, health = 100, agility = 100, baseAccuracy = 100, knowledge = 100, will = 100;
-
-	/* ======================================= */
-
 	public int getMaxHp() {
 		return maxHp;
 	}
@@ -243,50 +238,26 @@ public class StatsTemplate {
 	}
 
 	public int getPower() {
-		return power;
-	}
-
-	public void setPower(int power) {
-		this.power = power;
+		return 100;
 	}
 
 	public int getHealth() {
-		return health;
-	}
-
-	public void setHealth(int health) {
-		this.health = health;
+		return 100;
 	}
 
 	public int getAgility() {
-		return agility;
-	}
-
-	public void setAgility(int agility) {
-		this.agility = agility;
+		return 100;
 	}
 
 	public int getBaseAccuracy() {
-		return baseAccuracy;
-	}
-
-	public void setBaseAccuracy(int baseAccuracy) {
-		this.baseAccuracy = baseAccuracy;
+		return 100;
 	}
 
 	public int getKnowledge() {
-		return knowledge;
-	}
-
-	public void setKnowledge(int knowledge) {
-		this.knowledge = knowledge;
+		return 100;
 	}
 
 	public int getWill() {
-		return will;
-	}
-
-	public void setWill(int will) {
-		this.will = will;
+		return 100;
 	}
 }

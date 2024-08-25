@@ -2,8 +2,6 @@ package com.aionemu.gameserver.model.stats.container;
 
 import java.util.Objects;
 import java.util.concurrent.Future;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import com.aionemu.gameserver.model.gameobjects.Creature;
 import com.aionemu.gameserver.network.aion.serverpackets.SM_ATTACK_STATUS;
@@ -25,10 +23,10 @@ public abstract class CreatureLifeStats<T extends Creature> {
 	protected boolean isAboutToDie = false;// for long animation skills that will kill
 	protected int killingBlow;// for long animation skills that will kill - last damage
 	protected final T owner;
-	private final Lock hpLock = new ReentrantLock();
-	private final Lock mpLock = new ReentrantLock();
-	protected final Lock restoreLock = new ReentrantLock();
-	protected volatile Future<?> lifeRestoreTask;
+	private final Object hpLock = new Object();
+	private final Object mpLock = new Object();
+	protected final Object restoreLock = new Object();
+	protected Future<?> lifeRestoreTask;
 
 	public CreatureLifeStats(T owner, int currentHp, int currentMp) {
 		this.owner = owner;
@@ -122,8 +120,7 @@ public abstract class CreatureLifeStats<T extends Creature> {
 
 		int hpReduced = 0;
 		boolean died = false;
-		hpLock.lock();
-		try {
+		synchronized (hpLock) {
 			if (isDead)
 				return 0;
 
@@ -136,8 +133,6 @@ public abstract class CreatureLifeStats<T extends Creature> {
 					setIsDead(died = true);
 				}
 			}
-		} finally {
-			hpLock.unlock();
 		}
 
 		if (hpReduced > 0 || skillId != 0)
@@ -164,8 +159,7 @@ public abstract class CreatureLifeStats<T extends Creature> {
 	 */
 	public int reduceMp(TYPE type, int value, int skillId, LOG log) {
 		int mpReduced = 0;
-		mpLock.lock();
-		try {
+		synchronized (mpLock) {
 			if (isDead)
 				return 0;
 
@@ -174,8 +168,6 @@ public abstract class CreatureLifeStats<T extends Creature> {
 				mpReduced = currentMp - newMp;
 				currentMp = newMp;
 			}
-		} finally {
-			mpLock.unlock();
 		}
 
 		if (mpReduced > 0 || skillId != 0)
@@ -211,8 +203,7 @@ public abstract class CreatureLifeStats<T extends Creature> {
 
 		int hpIncreased;
 		boolean died = false;
-		hpLock.lock();
-		try {
+		synchronized (hpLock) {
 			if (isDead)
 				return 0;
 
@@ -223,8 +214,6 @@ public abstract class CreatureLifeStats<T extends Creature> {
 				currentHp = 0;
 				setIsDead(died = true);
 			}
-		} finally {
-			hpLock.unlock();
 		}
 
 		if (hpIncreased > 0 || skillId != 0)
@@ -251,8 +240,7 @@ public abstract class CreatureLifeStats<T extends Creature> {
 
 	public int increaseMp(TYPE type, int value, int skillId, LOG log) {
 		int mpIncreased = 0;
-		mpLock.lock();
-		try {
+		synchronized (mpLock) {
 			if (isDead)
 				return 0;
 
@@ -261,8 +249,6 @@ public abstract class CreatureLifeStats<T extends Creature> {
 				mpIncreased = newMp - currentMp;
 				currentMp = newMp;
 			}
-		} finally {
-			mpLock.unlock();
 		}
 
 		if (mpIncreased > 0 || skillId != 0)
@@ -288,13 +274,10 @@ public abstract class CreatureLifeStats<T extends Creature> {
 	 * Will trigger restore task if not already
 	 */
 	public void triggerRestoreTask() {
-		restoreLock.lock();
-		try {
+		synchronized (restoreLock) {
 			if (lifeRestoreTask == null && !isDead()) {
 				lifeRestoreTask = LifeStatsRestoreService.getInstance().scheduleRestoreTask(this);
 			}
-		} finally {
-			restoreLock.unlock();
 		}
 
 	}
@@ -303,14 +286,11 @@ public abstract class CreatureLifeStats<T extends Creature> {
 	 * Cancel currently running restore task
 	 */
 	public void cancelRestoreTask() {
-		restoreLock.lock();
-		try {
+		synchronized (restoreLock) {
 			if (lifeRestoreTask != null) {
 				lifeRestoreTask.cancel(false);
 				lifeRestoreTask = null;
 			}
-		} finally {
-			restoreLock.unlock();
 		}
 	}
 
@@ -425,14 +405,13 @@ public abstract class CreatureLifeStats<T extends Creature> {
 	}
 
 	public final void setCurrentHp(int hp, Creature effector) {
-		hpLock.lock();
-		boolean wasDead = isDead;
-		int prevHp = currentHp;
-		try {
+		boolean wasDead;
+		int prevHp;
+		synchronized (hpLock) {
+			wasDead = isDead;
+			prevHp = currentHp;
 			currentHp = Math.max(0, Math.min(hp, getMaxHp()));
 			setIsDead(currentHp == 0);
-		} finally {
-			hpLock.unlock();
 		}
 		onSetHp();
 		if (!wasDead && isDead)
@@ -455,11 +434,8 @@ public abstract class CreatureLifeStats<T extends Creature> {
 	 * Sets the current MP without notifying observers
 	 */
 	public final void setCurrentMp(int value) {
-		mpLock.lock();
-		try {
+		synchronized (mpLock) {
 			currentMp = Math.max(0, Math.min(value, getMaxMp()));
-		} finally {
-			mpLock.unlock();
 		}
 		onSetMp();
 	}
@@ -470,11 +446,8 @@ public abstract class CreatureLifeStats<T extends Creature> {
 	 * @param mpPercent
 	 */
 	public final void setCurrentMpPercent(int mpPercent) {
-		mpLock.lock();
-		try {
+		synchronized (mpLock) {
 			currentMp = (int) (mpPercent / 100f * getMaxMp());
-		} finally {
-			mpLock.unlock();
 		}
 		onSetMp();
 	}

@@ -113,6 +113,7 @@ public class Player extends Creature {
 	private Storage[] cabinets = new Storage[StorageType.HOUSE_WH_MAX - StorageType.HOUSE_WH_MIN + 1];
 	private Storage regularWarehouse;
 	private Equipment equipment;
+	private Item usingItem;
 
 	private final AbsoluteStatOwner absStatsHolder;
 	private PlayerSettings playerSettings;
@@ -463,6 +464,14 @@ public class Player extends Creature {
 
 	public void setEquipment(Equipment equipment) {
 		this.equipment = equipment;
+	}
+
+	public Item getUsingItem() {
+		return usingItem;
+	}
+
+	public void setUsingItem(Item usingItem) {
+		this.usingItem = usingItem;
 	}
 
 	/**

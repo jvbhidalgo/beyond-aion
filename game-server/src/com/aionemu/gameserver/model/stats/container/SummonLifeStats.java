@@ -27,13 +27,10 @@ public class SummonLifeStats extends CreatureLifeStats<Summon> {
 
 	@Override
 	public void triggerRestoreTask() {
-		restoreLock.lock();
-		try {
+		synchronized (restoreLock) {
 			if (lifeRestoreTask == null && !isDead) {
 				this.lifeRestoreTask = LifeStatsRestoreService.getInstance().scheduleHpRestoreTask(this);
 			}
-		} finally {
-			restoreLock.unlock();
 		}
 	}
 }

@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import com.aionemu.gameserver.model.EmotionType;
 import com.aionemu.gameserver.model.SkillElement;
 import com.aionemu.gameserver.model.enchants.EnchantEffect;
 import com.aionemu.gameserver.model.gameobjects.Creature;
@@ -20,7 +21,9 @@ import com.aionemu.gameserver.model.stats.calc.functions.IStatFunction;
 import com.aionemu.gameserver.model.stats.calc.functions.StatFunctionProxy;
 import com.aionemu.gameserver.model.templates.itemset.ItemSetTemplate;
 import com.aionemu.gameserver.model.templates.stats.StatsTemplate;
+import com.aionemu.gameserver.network.aion.serverpackets.SM_EMOTION;
 import com.aionemu.gameserver.skillengine.model.Effect;
+import com.aionemu.gameserver.utils.PacketSendUtility;
 import com.aionemu.gameserver.utils.stats.CalculationType;
 
 /**
@@ -35,7 +38,7 @@ public abstract class CreatureGameStats<T extends Creature> {
 
 	private long lastGeoUpdate = 0;
 	private int attackCounter = 0;
-	private int cachedMaxHp, cachedMaxMp;
+	private int cachedMaxHp, cachedMaxMp, cachedSpeed;
 
 	protected CreatureGameStats(T owner) {
 		this.owner = owner;
@@ -314,6 +317,17 @@ public abstract class CreatureGameStats<T extends Creature> {
 	 * Send packet about speed info
 	 */
 	public void updateSpeedInfo() {
+		PacketSendUtility.broadcastPacket(owner, new SM_EMOTION(owner, EmotionType.CHANGE_SPEED));
+	}
+
+	protected boolean checkSpeedStats() {
+		int currentSpeed = getMovementSpeed().getCurrent();
+		if (currentSpeed != cachedSpeed) {
+			updateSpeedInfo();
+			cachedSpeed = currentSpeed;
+			return true;
+		}
+		return false;
 	}
 
 	/**

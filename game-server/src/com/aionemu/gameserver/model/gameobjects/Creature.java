@@ -51,14 +51,12 @@ public abstract class Creature extends VisibleObject {
 	private Skill castingSkill;
 	private Map<Integer, Long> skillCoolDowns;
 	private ObserveController observeController;
-	private final TransformModel transformModel;
+	private TransformModel transformModel;
 	private final AggroList aggroList;
-	private Item usingItem;
 	private final byte[] zoneTypes = new byte[ZoneType.values().length];
 	private int skillNumber;
 	private int attackedCount;
 	private long spawnTime = System.currentTimeMillis();
-	private TribeClass tribe = TribeClass.GENERAL;
 
 	public Creature(int objId, CreatureController<? extends Creature> controller, SpawnTemplate spawnTemplate, CreatureTemplate objectTemplate,
 		WorldPosition position, boolean autoReleaseObjectId) {
@@ -68,7 +66,6 @@ public abstract class Creature extends VisibleObject {
 			aiName = SpawnTemplate.NO_AI.equals(spawnTemplate.getAiName()) ? null : spawnTemplate.getAiName();
 		this.ai = AIEngine.getInstance().newAI(aiName, this);
 		this.observeController = new ObserveController();
-		this.transformModel = new TransformModel(this);
 		this.aggroList = createAggroList();
 	}
 
@@ -211,42 +208,6 @@ public abstract class Creature extends VisibleObject {
 	}
 
 	/**
-	 * Is using item
-	 * 
-	 * @return
-	 */
-	public boolean isUsingItem() {
-		return usingItem != null;
-	}
-
-	/**
-	 * Set using item
-	 * 
-	 * @param usingItem
-	 */
-	public void setUsingItem(Item usingItem) {
-		this.usingItem = usingItem;
-	}
-
-	/**
-	 * get Using ItemId
-	 * 
-	 * @return
-	 */
-	public int getUsingItemId() {
-		return usingItem != null ? usingItem.getItemTemplate().getTemplateId() : 0;
-	}
-
-	/**
-	 * Using Item
-	 * 
-	 * @return
-	 */
-	public Item getUsingItem() {
-		return usingItem;
-	}
-
-	/**
 	 * All abnormal effects are checked that disable movements
 	 * 
 	 * @return
@@ -374,10 +335,9 @@ public abstract class Creature extends VisibleObject {
 		return false;
 	}
 
-	/**
-	 * @return the transformModel
-	 */
 	public TransformModel getTransformModel() {
+		if (transformModel == null)
+			transformModel = new TransformModel(this);
 		return transformModel;
 	}
 
@@ -386,7 +346,7 @@ public abstract class Creature extends VisibleObject {
 	}
 
 	public boolean isTransformed() {
-		return getTransformModel().isActive();
+		return transformModel != null && getTransformModel().isActive();
 	}
 
 	/**
@@ -437,11 +397,7 @@ public abstract class Creature extends VisibleObject {
 	}
 
 	public TribeClass getTribe() {
-		return tribe;
-	}
-
-	public void setTribe(TribeClass tribe) {
-		this.tribe = tribe;
+		return TribeClass.GENERAL;
 	}
 
 	public TribeClass getBaseTribe() {
