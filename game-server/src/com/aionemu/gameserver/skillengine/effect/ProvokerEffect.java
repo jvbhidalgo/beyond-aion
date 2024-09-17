@@ -39,19 +39,37 @@ public class ProvokerEffect extends ShieldEffect {
 	@Override
 	public void startEffect(Effect effect) {
 		Creature effector = effect.getEffector();
-		effect.addObserver(effect.getEffected(), new ActionObserver(ObserverType.ATTACK) {
+		ActionObserver observer;
 
-			@Override
-			public void attack(Creature attacked, int attackSkillId) {
-				if (shouldApply(effector, attacked, attackSkillId)) {
-					if (effector instanceof Player player) {
-						PacketSendUtility.sendPacket(player,
+		if (hitType == HitType.EVERYHIT) {
+			observer = new ActionObserver(ObserverType.ATTACKED) {
+				@Override
+				public void attacked(Creature attacker, int attackSkillId) {
+					if (shouldApply(effector, attacker, attackSkillId)) {
+						if (effector instanceof Player player) {
+							PacketSendUtility.sendPacket(player,
 								SM_SYSTEM_MESSAGE.STR_SKILL_PROC_EFFECT_OCCURRED(DataManager.SKILL_DATA.getSkillTemplate(skillId).getL10n()));
+						}
+						SkillEngine.getInstance().applyEffectDirectly(skillId, effector, getProvokeTarget(effector, attacker));
 					}
-					SkillEngine.getInstance().applyEffectDirectly(skillId, effector, getProvokeTarget(effector, attacked));
 				}
-			}
-		});
+			};
+		} else {
+			observer = new ActionObserver(ObserverType.ATTACK) {
+				@Override
+				public void attack(Creature attacked, int attackSkillId) {
+					if (shouldApply(effector, attacked, attackSkillId)) {
+						if (effector instanceof Player player) {
+							PacketSendUtility.sendPacket(player,
+								SM_SYSTEM_MESSAGE.STR_SKILL_PROC_EFFECT_OCCURRED(DataManager.SKILL_DATA.getSkillTemplate(skillId).getL10n()));
+						}
+						SkillEngine.getInstance().applyEffectDirectly(skillId, effector, getProvokeTarget(effector, attacked));
+					}
+				}
+			};
+		}
+
+		effect.addObserver(effect.getEffected(), observer);
 	}
 
 	private boolean shouldApply(Creature effector, Creature target, int attackSkillId) {
