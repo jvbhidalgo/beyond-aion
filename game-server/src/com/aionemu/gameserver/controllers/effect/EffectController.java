@@ -63,6 +63,12 @@ public class EffectController {
 		}
 
 		if (useEffectId) {
+			// Skills that apply Fear AND a Movement Speed reduction (like Fear Shriek, Curse of Fire/Water) 
+			// must clear previous movement reductions skills
+			if (nextEffect.getSkillTemplate().hasAnyEffect(EffectType.FEAR) && nextEffect.hasMovementSpeedReductionEffect()) {
+				removeMovementSpeedReductionEffects();
+			}
+		
 			// idea here is that effects with same effectId shouldn't stack, effect with higher basic lvl takes priority
 			if (searchConflict(mapToUpdate, nextEffect)) {
 				if (!nextEffect.isPassive() && nextEffect.getTargetSlot() != SkillTargetSlot.DEBUFF)
@@ -350,6 +356,10 @@ public class EffectController {
 
 	public void removeParalyzeEffects() {
 		removeEffects(abnormalEffectMap, Effect::isParalyzeEffect);
+	}
+	
+	public void removeMovementSpeedReductionEffects() {
+		removeEffects(abnormalEffectMap, Effect::hasMovementSpeedReductionEffect);
 	}
 
 	public void removeStunEffects() {
